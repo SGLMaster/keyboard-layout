@@ -45,55 +45,128 @@ SetLayer(num){
   If(num = 0){
     PopUp("layer 0 (Normal)")
   } Else If(num = 1){
-    PopUp("layer 1 (Raise)")
+    PopUp("layer 1")
   } Else If(num = 2){
-    PopUp("layer 2 (Lower)")
+    PopUp("layer 2")
+  } Else If(num = 3){
+    PopUp("layer 3")
   }
 }
 return
 
-'::`;
-":: Send {:}
-`;::'
-+`;::"
 /::Backspace
 -::Enter
 Tab::Escape
 LCtrl::Tab
 LShift::LCtrl
 RShift::RWin
-
-$*LAlt::
-#IfWinActive
-SetLayer(2)
-keyWait, LAlt
-SetLayer(0)
+RCtrl::
+  SetLayer(0)
 return
-
-$*RAlt::
-#IfWinActive
-SetLayer(1)
-keyWait, RAlt
-SetLayer(0)
-return
-
-$space::
-   send {LShift down} 
-   Spacedown := A_TickCount
-Return 
-   
-$+space up::
-   send {LShift up}   
-   if (A_TickCount - Spacedown < 200) 
-      Send {Space}
-Return
 
 #If kbd_layer=0
+
+  LAlt::
+    SetLayer(1)
+  return
+
+  RAlt::
+    #IfWinActive
+    SetLayer(2)
+  return
+
+  +'::"
+  +,::<
+  +.::>
+  +p::P
+  +y::Y
+  +f::F
+  +g::G
+  +c::C
+  +r::R
+  +l::L
+
+  +a::A
+  +o::O
+  +e::E
+  +u::U
+  +i::I
+  +d::D
+  +h::H
+  +t::T
+  +n::N
+  +s::S
+
+  +`;::Send {:}
+  +q::Q
+  +j::J
+  +k::K
+  +x::X
+  +b::B
+  +m::M
+  +w::W
+  +v::V
+  +z::Z
+
+  $space::
+    send {LShift down} 
+    Spacedown := A_TickCount
+  Return 
+   
+  $+space up::
+    send {LShift up}   
+    if (A_PriorHotkey == "$space") 
+      Send {Space}
+  Return
 
 return ; end kbd_layer= 0
 
 #If kbd_layer=1
+
+  LAlt Up::
+    SetLayer(0)
+  return
+  RAlt::
+    SetLayer(3)
+  return
   
+  a::_
+  o::{
+  e::}
+  u::=
+  i::Send {+}
+  d::-
+  h::Left 
+  t::(
+  n::)
+  s::/
+
+  '::!
+  ,::@
+  .::#
+  f::Send {`%}
+  g::Send {*}
+  c::[
+  r::]
+  l::Right
+
+  j::Down
+  k::Up
+  b::$
+  m::&
+  w::^
+
+return ; end kbd_layer= 1
+
+#If kbd_layer=2
+
+  RAlt Up::
+    SetLayer(0)
+  return
+  LAlt::
+    SetLayer(3)
+  return
+
   a::á 
   A::Á
   o::ó
@@ -104,8 +177,20 @@ return ; end kbd_layer= 0
   U::Ú
   i::í
   I::Í
-  d::return
-  h::return
+  d::
+    Send !{F4}
+    keyWait, d
+  return
+  h:: ;one-key alt-tab (tested on Windows 7)
+    vAltTabTickCount := A_TickCount
+    if WinActive("ahk_class TaskSwitcherWnd")
+      SendInput, {Tab}
+    else
+    {
+      SendInput, {Alt Down}{Tab}
+      SetTimer, AltTabSendTab, 500
+    }
+  return
   t::return
   n::ñ
   N::Ñ
@@ -128,34 +213,25 @@ return ; end kbd_layer= 0
   b::?
   m::~
 
-return ; end kbd_layer= 1
-
-#If kbd_layer=2
-  
-  a::_
-  o::{
-  e::}
-  u::=
-  i::Send {+}
-  d::-
-  h::Left
-  t::(
-  n::)
-  s::/
-
-  '::!
-  ,::@
-  .::#
-  f::Send {`%}
-  g::[
-  c::]
-  r::Send {*}
-  l::Right
-
-  j::Down
-  k::Up
-  b::$
-  m::&
-  w::^
-
 return ; end kbd_layer= 2
+
+AltTabSendTab:
+  if GetKeyState("h", "P")
+    vAltTabTickCount := A_TickCount
+  if WinActive("ahk_class TaskSwitcherWnd") && !(A_TickCount - vAltTabTickCount > 400)
+    return
+
+  SendInput, {Alt Up}
+  SetTimer, AltTabSendTab, Off
+return
+
+#If kbd_layer=3
+
+  LAlt Up::
+    SetLayer(2)
+  return
+  RAlt Up::
+    SetLayer(1)
+  return
+
+return ; end kbd_layer= 3
