@@ -6,14 +6,6 @@
 ; ^ Control
 ; ! Alt
 
-; Remapping the common shortcuts:
-^q::^x ;cut
-^j::^c ;copy
-^k::^v ;paste
-^;::^z ;undo
-^o::^s ;save		
-^l::^p ;print
-
 #SingleInstance Force ; Allow only one running instance of script.
 CoordMode, ToolTip, Screen  ; Place ToolTips at absolute screen coordinates:
 
@@ -21,8 +13,8 @@ kbd_layer := 0
 
 tooltip_duration := 2000
 	
-noti_x := A_ScreenWidth//2-400
-noti_y := A_ScreenHeight//2-100
+noti_x := A_ScreenWidth
+noti_y := A_ScreenHeight
 
 ;//////////////////////////////////////////////////////////////
 ; notications
@@ -54,8 +46,24 @@ SetLayer(num){
 }
 return
 
-/::Backspace
--::Enter
+*`::return
+*1::return
+*2::return
+*3::return
+*4::return
+*5::return
+*6::return
+*7::return
+*8::return
+*9::return
+*0::return
+*-::return
+*=::return
+*]::return
+*\::return
+
+[::Backspace
+'::Enter
 Tab::Escape
 LCtrl::Tab
 LShift::LCtrl
@@ -66,122 +74,182 @@ return
 
 #If kbd_layer=0
 
-  LAlt::
+  *LAlt::
     SetLayer(1)
   return
-
-  RAlt::
+  *RAlt::
     #IfWinActive
     SetLayer(2)
   return
 
-  +'::"
-  +,::<
-  +.::>
-  +p::P
-  +y::Y
-  +f::F
-  +g::G
-  +c::C
-  +r::R
-  +l::L
-
+  a::a
+  s::o
+  d::e
+  f::u
+  g::i
+  h::d
+  j::h
+  k::t
+  l::n
+  SC027::s
   +a::A
-  +o::O
-  +e::E
-  +u::U
-  +i::I
-  +d::D
-  +h::H
-  +t::T
-  +n::N
-  +s::S
+  +s::O
+  +d::E
+  +f::U
+  +g::I
+  +h::D
+  +j::H
+  +k::T
+  +l::N
+  +SC027::S
+  
+  q::'
+  w::,
+  e::.
+  r::p
+  t::y
+  y::f
+  u::g
+  i::c
+  o::r
+  p::l
+  +q::"
+  +w::<
+  +e::>
+  +r::P
+  +t::Y
+  +y::F
+  +u::G
+  +i::C
+  +o::R
+  +p::L
 
-  +`;::Send {:}
-  +q::Q
-  +j::J
-  +k::K
-  +x::X
-  +b::B
+  z::;
+  x::q
+  c::j
+  v::k
+  b::x
+  n::b
+  m::m
+  ,::w
+  .::v
+  /::z
+  +z::send {:}
+  +x::Q
+  +c::J
+  +v::K
+  +b::X
+  +n::B
   +m::M
-  +w::W
-  +v::V
-  +z::Z
+  +,::W
+  +.::V
+  +/::Z
 
   $space::
     send {LShift down} 
-    Spacedown := A_TickCount
   Return 
    
   $+space up::
     send {LShift up}   
     if (A_PriorHotkey == "$space") 
-      Send {Space}
+      SendInput {Space}
   Return
 
 return ; end kbd_layer= 0
 
 #If kbd_layer=1
 
-  LAlt Up::
+  *LAlt Up::
     SetLayer(0)
   return
-  RAlt::
+  *RAlt::
     SetLayer(3)
   return
   
-  a::_
-  o::{
-  e::}
-  u::=
-  i::Send {+}
-  d::-
-  h::Left 
-  t::(
-  n::)
-  s::/
+  a::[
+  s::{
+  d::}
+  f::]
+  g::Send {+}
+  h::-
+  j::Left 
+  k::(
+  l::)
+  SC027::/
+  +a::return
+  +s::return
+  +d::return
+  +f::return
+  +g::return
+  +h::return
+  +j::return
+  +k::return
+  +l::return
+  +SC027::return
 
-  '::!
-  ,::@
-  .::#
-  f::Send {`%}
-  g::Send {*}
-  c::[
-  r::]
-  l::Right
+  q::!
+  w::@
+  e::#
+  r::$
+  t::send, `%
+  y::^
+  u::&
+  i::*
+  o::=
+  p::Right
+  +q::return
+  +w::return
+  +e::return
+  +r::return
+  +t::return
+  +y::return
+  +u::return
+  +i::return
+  +o::return
+  +p::return
 
-  j::Down
-  k::Up
-  b::$
-  m::&
-  w::^
+  z::~
+  x::`
+  c::Down
+  v::Up
+  b::|
+  n::\
+  m::?
+  ,::return
+  .::return
+  /::return
+  +z::return
+  +x::return
+  +c::return
+  +v::return
+  +b::return
+  +n::return
+  +m::return
+  +,::return
+  +.::return
+  +/::return
 
 return ; end kbd_layer= 1
 
 #If kbd_layer=2
 
-  RAlt Up::
+  *RAlt Up::
     SetLayer(0)
   return
-  LAlt::
+  *LAlt::
     SetLayer(3)
   return
 
   a::á 
-  A::Á
-  o::ó
-  O::Ó
-  e::é
-  E::É
-  u::ú
-  U::Ú
-  i::í
-  I::Í
-  d::
+  s::ó
+  d::é
+  f::ú
+  g::í
+  h::
     Send !{F4}
     keyWait, d
   return
-  h:: ;one-key alt-tab (tested on Windows 7)
+  j:: ;one-key alt-tab (tested on Windows 7)
     vAltTabTickCount := A_TickCount
     if WinActive("ahk_class TaskSwitcherWnd")
       SendInput, {Tab}
@@ -191,32 +259,66 @@ return ; end kbd_layer= 1
       SetTimer, AltTabSendTab, 500
     }
   return
-  t::return
-  n::ñ
-  N::Ñ
-  s::return
+  k::return
+  l::ñ
+  SC027::_
+  +a::Á
+  +s::Ó
+  +d::É
+  +f::Ú
+  +g::Í
+  +h::return
+  +j::return
+  +k::return
+  +l::Ñ
+  +SC027::return
 
-  '::1
-  ,::2
-  .::3
-  p::4
-  y::5
-  f::6
-  g::7
-  c::8
-  r::9
-  l::0
+  q::1
+  w::2
+  e::3
+  r::4
+  t::5
+  y::6
+  u::7
+  i::8
+  o::9 
+  p::0
+  +q::return
+  +w::return
+  +e::return
+  +r::return
+  +t::return
+  +y::return
+  +u::return
+  +i::return
+  +o::return
+  +p::return
 
-  q::Send {``}
-  j::^#Left
-  k::^#Right
-  b::?
-  m::~
+  z::return
+  x::return
+  c::^#Left
+  v::^#Right
+  b::return
+  n::return
+  m::return
+  ,::return
+  .::return
+  /::return
+  +z::return
+  +x::return
+  +c::return
+  +v::return
+  +b::return
+  +n::return
+  +m::return
+  +,::return
+  +.::return
+  +/::return
 
 return ; end kbd_layer= 2
 
 AltTabSendTab:
-  if GetKeyState("h", "P")
+  if GetKeyState("j", "P")
     vAltTabTickCount := A_TickCount
   if WinActive("ahk_class TaskSwitcherWnd") && !(A_TickCount - vAltTabTickCount > 400)
     return
@@ -227,11 +329,74 @@ return
 
 #If kbd_layer=3
 
-  LAlt Up::
+  *LAlt Up::
     SetLayer(2)
   return
-  RAlt Up::
+  *RAlt Up::
     SetLayer(1)
   return
+
+  a::F6
+  s::F7
+  d::F8
+  f::F9
+  g::F10
+  h::return
+  j::return
+  k::return
+  l::return
+  SC027::return
+  +a::return
+  +s::return
+  +d::return
+  +f::return
+  +g::return
+  +h::return
+  +j::return
+  +k::return
+  +l::return
+  +SC027::return
+
+  q::F1
+  w::F2
+  e::F3
+  r::F4
+  t::F5
+  y::return
+  u::return
+  i::return
+  o::return
+  p::return
+  +q::return
+  +w::return
+  +e::return
+  +r::return
+  +t::return
+  +y::return
+  +u::return
+  +i::return
+  +o::return
+  +p::return
+
+  z::F11
+  x::F12
+  c::End
+  v::Home
+  b::return
+  n::return
+  m::return
+  ,::return
+  .::return
+  /::return
+  +z::return
+  +x::return
+  +c::return
+  +v::return
+  +b::return
+  +n::return
+  +m::return
+  +,::return
+  +.::return
+  +/::return
 
 return ; end kbd_layer= 3
