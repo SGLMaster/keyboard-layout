@@ -307,8 +307,8 @@ return
   d::F8
   f::F9
   g::F10
-  h::send {Blind}{Volume_Down}
-  j::send {Blind}{Volume_Up}
+  h::send {Volume_Down}
+  j::return
   k::return
   l::return
   SC027::return
@@ -318,19 +318,19 @@ return
   e::F3
   r::F4
   t::F5
-  y::return
-  u::Send {Blind}{Volume_Down}
-  i::send {Volume_Up}
-  o::send {Volume_Down}
-  p::send {Volume_Up}
+  y::send {Volume_Up}
+  u::return
+  i::return
+  o::return
+  p::return
 
   z::F11
   x::F12
   c::End
   v::Home
-  b::return
-  n::return
-  m::return
+  b::send {Media_Prev}
+  n::send {Media_Next}
+  m::send {Media_Play_Pause}
   ,::return
   .::return
   /::return
