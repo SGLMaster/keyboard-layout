@@ -1,6 +1,7 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #HotkeyInterval 1000000000
 #MaxHotkeysPerInterval 9999999999999
+#Warn
 
 ; # Windows
 ; ^ Control
@@ -44,7 +45,6 @@ SetLayer(num){
     PopUp("layer 3")
   }
 }
-return
 
 *`::return
 *1::return
@@ -147,15 +147,15 @@ return
 
   $space::
     send {LShift down} 
-  Return 
+  return 
    
   $+space up::
     send {LShift up}   
     if (A_PriorHotkey == "$space") 
       SendInput {Space}
-  Return
+  return
 
-return ; end kbd_layer= 0
+; end kbd_layer= 0
 
 #If kbd_layer=1
 
@@ -229,7 +229,7 @@ return ; end kbd_layer= 0
   +.::return
   +/::return
 
-return ; end kbd_layer= 1
+; end kbd_layer= 1
 
 #If kbd_layer=2
 
@@ -247,7 +247,7 @@ return ; end kbd_layer= 1
   g::í
   h::
     Send !{F4}
-    keyWait, d
+    keyWait, h
   return
   j:: ;one-key alt-tab (tested on Windows 7)
     vAltTabTickCount := A_TickCount
@@ -267,11 +267,7 @@ return ; end kbd_layer= 1
   +d::É
   +f::Ú
   +g::Í
-  +h::return
-  +j::return
-  +k::return
   +l::Ñ
-  +SC027::return
 
   q::1
   w::2
@@ -283,16 +279,6 @@ return ; end kbd_layer= 1
   i::8
   o::9 
   p::0
-  +q::return
-  +w::return
-  +e::return
-  +r::return
-  +t::return
-  +y::return
-  +u::return
-  +i::return
-  +o::return
-  +p::return
 
   z::return
   x::return
@@ -300,32 +286,12 @@ return ; end kbd_layer= 1
   v::^#Right
   b::return
   n::return
-  m::return
+  m::#Up
   ,::return
   .::return
   /::return
-  +z::return
-  +x::return
-  +c::return
-  +v::return
-  +b::return
-  +n::return
-  +m::return
-  +,::return
-  +.::return
-  +/::return
 
-return ; end kbd_layer= 2
-
-AltTabSendTab:
-  if GetKeyState("j", "P")
-    vAltTabTickCount := A_TickCount
-  if WinActive("ahk_class TaskSwitcherWnd") && !(A_TickCount - vAltTabTickCount > 400)
-    return
-
-  SendInput, {Alt Up}
-  SetTimer, AltTabSendTab, Off
-return
+; end kbd_layer= 2
 
 #If kbd_layer=3
 
@@ -341,21 +307,11 @@ return
   d::F8
   f::F9
   g::F10
-  h::return
-  j::return
+  h::send {Blind}{Volume_Down}
+  j::send {Blind}{Volume_Up}
   k::return
   l::return
   SC027::return
-  +a::return
-  +s::return
-  +d::return
-  +f::return
-  +g::return
-  +h::return
-  +j::return
-  +k::return
-  +l::return
-  +SC027::return
 
   q::F1
   w::F2
@@ -363,20 +319,10 @@ return
   r::F4
   t::F5
   y::return
-  u::return
-  i::return
-  o::return
-  p::return
-  +q::return
-  +w::return
-  +e::return
-  +r::return
-  +t::return
-  +y::return
-  +u::return
-  +i::return
-  +o::return
-  +p::return
+  u::Send {Blind}{Volume_Down}
+  i::send {Volume_Up}
+  o::send {Volume_Down}
+  p::send {Volume_Up}
 
   z::F11
   x::F12
@@ -388,15 +334,15 @@ return
   ,::return
   .::return
   /::return
-  +z::return
-  +x::return
-  +c::return
-  +v::return
-  +b::return
-  +n::return
-  +m::return
-  +,::return
-  +.::return
-  +/::return
 
-return ; end kbd_layer= 3
+; end kbd_layer= 3
+
+AltTabSendTab:
+  if GetKeyState("j", "P")
+    vAltTabTickCount := A_TickCount
+  if WinActive("ahk_class TaskSwitcherWnd") && !(A_TickCount - vAltTabTickCount > 400)
+    return
+
+  SendInput, {Alt Up}
+  SetTimer, AltTabSendTab, Off
+return
