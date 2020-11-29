@@ -255,7 +255,7 @@ return
       SendInput, {Tab}
     else
     {
-      SendInput, {Alt Down}{Tab}
+      SendInput, {Blind}{Alt Down}{Tab}
       SetTimer, AltTabSendTab, 500
     }
   return
@@ -290,6 +290,16 @@ return
   ,::return
   .::return
   /::return
+
+AltTabSendTab:
+  if GetKeyState("j", "P")
+    vAltTabTickCount := A_TickCount
+  if WinActive("ahk_class TaskSwitcherWnd") && !(A_TickCount - vAltTabTickCount > 400)
+    return
+
+  SendInput, {Alt Up}
+  SetTimer, AltTabSendTab, Off
+return	
 
 ; end kbd_layer= 2
 
@@ -336,13 +346,3 @@ return
   /::return
 
 ; end kbd_layer= 3
-
-AltTabSendTab:
-  if GetKeyState("j", "P")
-    vAltTabTickCount := A_TickCount
-  if WinActive("ahk_class TaskSwitcherWnd") && !(A_TickCount - vAltTabTickCount > 400)
-    return
-
-  SendInput, {Alt Up}
-  SetTimer, AltTabSendTab, Off
-return
