@@ -36,13 +36,13 @@ SetLayer(num){
   global kbd_layer
   kbd_layer := num
   If(num = 0){
-    PopUp("layer 0 (Normal)")
+    ; PopUp("layer 0 (Normal)")
   } Else If(num = 1){
-    PopUp("layer 1")
+    ; PopUp("layer 1")
   } Else If(num = 2){
-    PopUp("layer 2")
+    ; PopUp("layer 2")
   } Else If(num = 3){
-    PopUp("layer 3")
+    ; PopUp("layer 3")
   }
 }
 
