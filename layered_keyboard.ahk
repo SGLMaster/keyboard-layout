@@ -65,7 +65,8 @@ SetLayer(num){
 [::Backspace
 '::Enter
 Tab::Escape
-LCtrl::Tab
+CapsLock::Tab
+LCtrl::CapsLock
 LShift::LCtrl
 RShift::RWin
 RCtrl::
