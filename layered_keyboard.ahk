@@ -313,12 +313,12 @@ return
     SetLayer(1)
   return
 
-  a::F6
-  s::F7
-  d::F8
-  f::F9
-  g::F10
-  h::send {Volume_Down}
+  a::send {Volume_Down 2}
+  s::send {Media_Prev}
+  d::send {Media_Next}
+  f::send {Volume_Up 2}
+  g::send {Media_Play_Pause}
+  h::return
   j::return
   k::return
   l::return
@@ -329,19 +329,19 @@ return
   e::F3
   r::F4
   t::F5
-  y::send {Volume_Up}
-  u::return
-  i::return
-  o::return
-  p::return
+  y::F6
+  u::F7
+  i::F8
+  o::F9
+  p::F10
 
   z::F11
   x::F12
   c::End
-  v::Home
-  b::send {Media_Prev}
-  n::send {Media_Next}
-  m::send {Media_Play_Pause}
+  v::send {Media_Play_Pause}
+  b::return
+  n::return
+  m::Home
   ,::return
   .::return
   /::return
